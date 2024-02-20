@@ -368,6 +368,8 @@ RedQueueDisc::DoEnqueue(Ptr<QueueDiscItem> item)
 
     m_qAvg = Estimator(nQueued, m + 1, m_qAvg, m_qW);
 
+    // std::cout << "mid: " << mid  << std::endl;
+
     NS_LOG_DEBUG("\t bytesInQueue  " << GetInternalQueue(0)->GetNBytes() << "\tQavg " << m_qAvg);
     NS_LOG_DEBUG("\t packetsInQueue  " << GetInternalQueue(0)->GetNPackets() << "\tQavg "
                                        << m_qAvg);
@@ -643,14 +645,43 @@ RedQueueDisc::Estimator(uint32_t nQueued, uint32_t m, double qAvg, double qW)
     double newAve = qAvg * std::pow(1.0 - qW, m);
     newAve += qW * nQueued;
     double queueChange = nQueued - prevQueueLen;
-
+    if (abs(nQueued - 35) <= (mid*0.5))
+    {
+        huber = (0.05*(nQueued - 35));
+        huber = pow(huber,2);
+        huber = 0.5*huber;
+        std::cout << "huber: " << huber  << std::endl;
+    }
+    if (abs(nQueued - 35) >= (mid*0.5))
+    {
+        huber = 0.01 * abs(nQueued - 35);
+        huber = (huber*mid) - 0.5*mid*mid; 
+    }
+    // huber = (1/(1+exp(-(huber))));
+    // if (nQueued != 0)
+    // {
+    //     std::cout << "huber: " << huber  << std::endl;
+    // }   
    // davg = (1 - qW) * davg + qW * (newAve - qAvg);
     davg = (1 - qW) * davg + qW * queueChange;
     // std::cout << "davg: " << davg << std::endl;
+    // if (davg >= 1)
+    // {
+    //     L1 = 0.5 * davg *davg;
+    // }
+    // else
+    // {
+    //     L1 = davg - 0.5;
+    // }
+    // std::cout << "L1: " << L1 << std::endl;
+    // std::cout << "davg: " << davg << std::endl;
+    
+
 
     if (davg < 0)
     {
-        mid++;
+        // mid++;
+        mid = mid + 0.1*(1/(1+exp(-(davg))));
     }
     // else if (davg > 0 && davg < 1)
     // {
@@ -664,29 +695,33 @@ RedQueueDisc::Estimator(uint32_t nQueued, uint32_t m, double qAvg, double qW)
     else if (davg > 0)
     {
         // std::cout << "mid1: " << mid << std::endl;
-        mid = mid - 1/(1+exp(-(davg)));
+        // mid--;
+        mid = mid - 0.1*(1/(1+exp(-(davg))));
         // std::cout << "mid2: " << mid << std::endl;
        
         // mid--;
     }
+    
 
-    if (mid > 60)
+    if (mid > m_maxTh)
     {
-        mid = 60 ;
+        mid = m_maxTh;
     }
-    if (mid < 30)
+    if (mid < m_minTh)
     {
-        mid = 30;
+        mid = m_minTh;
     }
-    std::cout << "mid: " << mid << std::endl;
+    // std::cout << "mid: " << mid << std::endl;
     
     // else if (davg == 0)
     // {
     //     mid = mid;
     // }
     prevQueueLen = nQueued;
-
-
+    if (m_qAvg > 0)
+    {
+    // std::cout << "L1: " << L1 << std::endl;
+    }
     Time now = Simulator::Now();
     // prevQueueLen = nQueued;
     if (m_isAdaptMaxP && now > m_lastSet + m_interval)
@@ -803,9 +838,6 @@ RedQueueDisc::CalculatePNew()
     }
     else
     {
-
-
-
         /*
          * p ranges from 0 to m_curMaxP as the average queue size ranges from
          * m_minTh to m_maxTh
@@ -813,23 +845,36 @@ RedQueueDisc::CalculatePNew()
         // p = m_vA * m_qAvg + m_vB;
         //m_vA = 1.0 / th_diff;
         //m_vB = -m_minTh / th_diff;
-        
+        // std::cout << "mid1: " << mid << std::endl;
         if (davg > 0.0)
         {
             if (m_qAvg < m_minTh)
             {
             p = 0.0;
             }
+            // else if (m_qAvg >= m_minTh && m_qAvg <= m_maxTh)
             else if (m_qAvg >= m_minTh && m_qAvg <= mid)
             {
             p = (m_qAvg - m_minTh)/(mid-m_minTh);
+            // std::cout << "mid: " << mid << std::endl;
+            p = p * 0.1;
+            // std::cout << "p: " << p << std::endl;
+
+            p = 1/(1+exp(-(p)));
             
             }
-            else if (m_qAvg >= mid)
+            else if (m_qAvg >= mid && m_qAvg <= m_maxTh)
             // else if (m_qAvg >= m_maxTh)
             {
+            p = (m_qAvg - m_minTh)/(mid-m_minTh);
+            p = p * 0.1;
+            // p = 1/(1+exp(-(davg)));
             // p = 1.0;
-            p = 1/(1+exp(-(davg)));
+            // p = 1/(1+exp(-(p)));
+            }
+            else if (m_qAvg >= m_maxTh)
+            {
+                p = 1.0;
             }
 
         }
@@ -843,10 +888,14 @@ RedQueueDisc::CalculatePNew()
             else if (m_qAvg >= m_minTh && m_qAvg <= m_maxTh)
             {
             p = (m_qAvg - m_minTh)/(m_maxTh-m_minTh);
+            p = p * 0.1;
+            // p = 1/(1+exp(-p));
             }
             else if (m_qAvg >= m_maxTh)
             {
-            p = 1/(1+exp(-(davg)));
+            // p = 1/(1+exp(davg));
+            // p = 0.1;
+            p = 1.0;
             }
 
         }

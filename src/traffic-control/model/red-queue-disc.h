@@ -67,6 +67,9 @@
 #include "ns3/nstime.h"
 #include "ns3/random-variable-stream.h"
 double mid = 45;
+double L1 = 0;
+double huber = 0;
+double ceta = 10;
 namespace ns3
 {
 
@@ -211,7 +214,7 @@ class RedQueueDisc : public QueueDisc
     Ptr<QueueDiscItem> DoDequeue() override;
     Ptr<const QueueDiscItem> DoPeek() override;
     bool CheckConfig() override;
-    double davg;
+    
     double prevQueueLen;
 
     /**
@@ -319,7 +322,7 @@ class RedQueueDisc : public QueueDisc
     Ptr<UniformRandomVariable> m_uv; //!< rng stream
 };
 
-
+double davg;
 }; // namespace ns3
 
 #endif // RED_QUEUE_DISC_H

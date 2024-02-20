@@ -136,13 +136,35 @@ BuildAppsTest(uint32_t test)
     if ((test == 1) || (test == 3))
     {
         // SINK is in the right side
-        uint16_t port = 50000;
-        Address sinkLocalAddress(InetSocketAddress(Ipv4Address::GetAny(), port));
-        PacketSinkHelper sinkHelper("ns3::TcpSocketFactory", sinkLocalAddress);
-        ApplicationContainer sinkApp = sinkHelper.Install(n3n4.Get(1));
-        sinkApp.Start(Seconds(sink_start_time));
-        sinkApp.Stop(Seconds(sink_stop_time));
+        uint16_t port1 = 50000;
+        Address sinkLocalAddress1(InetSocketAddress(Ipv4Address::GetAny(), port1));
+        PacketSinkHelper sinkHelper1("ns3::TcpSocketFactory", sinkLocalAddress1);
+        ApplicationContainer sinkApp1 = sinkHelper1.Install(n5n6.Get(1));
+        sinkApp1.Start(Seconds(sink_start_time));
+        sinkApp1.Stop(Seconds(sink_stop_time));
 
+        uint16_t port2 = 50001;
+        Address sinkLocalAddress2(InetSocketAddress(Ipv4Address::GetAny(), port2));
+        PacketSinkHelper sinkHelper2("ns3::TcpSocketFactory", sinkLocalAddress2);
+        ApplicationContainer sinkApp2 = sinkHelper2.Install(n5n7.Get(1));
+        sinkApp2.Start(Seconds(sink_start_time));
+        sinkApp2.Stop(Seconds(sink_stop_time));
+
+
+        uint16_t port3 = 50002;
+        Address sinkLocalAddress3(InetSocketAddress(Ipv4Address::GetAny(), port3));
+        PacketSinkHelper sinkHelper3("ns3::TcpSocketFactory", sinkLocalAddress3);
+        ApplicationContainer sinkApp3 = sinkHelper3.Install(n5n8.Get(1));
+        sinkApp3.Start(Seconds(sink_start_time));
+        sinkApp3.Stop(Seconds(sink_stop_time));
+
+
+        uint16_t port4 = 50003;
+        Address sinkLocalAddress4(InetSocketAddress(Ipv4Address::GetAny(), port4));
+        PacketSinkHelper sinkHelper4("ns3::TcpSocketFactory", sinkLocalAddress4);
+        ApplicationContainer sinkApp4 = sinkHelper4.Install(n5n9.Get(1));
+        sinkApp4.Start(Seconds(sink_start_time));
+        sinkApp4.Stop(Seconds(sink_stop_time));
         // Connection one
         // Clients are in left side
         /*
@@ -158,8 +180,8 @@ BuildAppsTest(uint32_t test)
         clientHelper1.SetAttribute("PacketSize", UintegerValue(1000));
 
         ApplicationContainer clientApps1;
-        AddressValue remoteAddress(InetSocketAddress(i3i4.GetAddress(1), port));
-        clientHelper1.SetAttribute("Remote", remoteAddress);
+        AddressValue remoteAddress1(InetSocketAddress(i5i6.GetAddress(1), port1));
+        clientHelper1.SetAttribute("Remote", remoteAddress1);
         clientApps1.Add(clientHelper1.Install(n0n4.Get(0)));
         clientApps1.Start(Seconds(sink_start_time));
         clientApps1.Stop(Seconds(sink_stop_time));
@@ -174,11 +196,46 @@ BuildAppsTest(uint32_t test)
         clientHelper2.SetAttribute("PacketSize", UintegerValue(1000));
 
         ApplicationContainer clientApps2;
-        clientHelper2.SetAttribute("Remote", remoteAddress);
+        AddressValue remoteAddress2(InetSocketAddress(i5i7.GetAddress(1), port2));
+        clientHelper2.SetAttribute("Remote", remoteAddress2);
         clientApps2.Add(clientHelper2.Install(n1n4.Get(0)));
         //clientApps2.Start(Seconds(3.0));
         clientApps2.Start(Seconds(sink_start_time));
         clientApps2.Stop(Seconds(sink_stop_time));
+
+        // Connection three
+        OnOffHelper clientHelper3("ns3::TcpSocketFactory", Address());
+        clientHelper3.SetAttribute("OnTime",
+                                   StringValue("ns3::ConstantRandomVariable[Constant=1]"));
+        clientHelper3.SetAttribute("OffTime",
+                                   StringValue("ns3::ConstantRandomVariable[Constant=0]"));
+        clientHelper3.SetAttribute("DataRate", DataRateValue(DataRate("10Mb/s")));
+        clientHelper3.SetAttribute("PacketSize", UintegerValue(1000));
+
+        ApplicationContainer clientApps3;
+        AddressValue remoteAddress3(InetSocketAddress(i5i8.GetAddress(1), port3));
+        clientHelper3.SetAttribute("Remote", remoteAddress3);
+        clientApps3.Add(clientHelper2.Install(n2n4.Get(0)));
+        //clientApps2.Start(Seconds(3.0));
+        clientApps3.Start(Seconds(sink_start_time));
+        clientApps3.Stop(Seconds(sink_stop_time));
+
+        // Connection four
+        OnOffHelper clientHelper4("ns3::TcpSocketFactory", Address());
+        clientHelper4.SetAttribute("OnTime",
+                                   StringValue("ns3::ConstantRandomVariable[Constant=1]"));
+        clientHelper4.SetAttribute("OffTime",
+                                   StringValue("ns3::ConstantRandomVariable[Constant=0]"));
+        clientHelper4.SetAttribute("DataRate", DataRateValue(DataRate("10Mb/s")));
+        clientHelper4.SetAttribute("PacketSize", UintegerValue(1000));
+
+        ApplicationContainer clientApps4;
+        AddressValue remoteAddress4(InetSocketAddress(i5i9.GetAddress(1), port4));
+        clientHelper4.SetAttribute("Remote", remoteAddress4);
+        clientApps4.Add(clientHelper2.Install(n3n4.Get(0)));
+        //clientApps2.Start(Seconds(3.0));
+        clientApps4.Start(Seconds(sink_start_time));
+        clientApps4.Stop(Seconds(sink_stop_time));
     }
 
 }
@@ -228,18 +285,26 @@ main(int argc, char* argv[])
 
     NS_LOG_INFO("Create nodes");
     NodeContainer c;
-    c.Create(6);
+    c.Create(10);
     Names::Add("N0", c.Get(0));
     Names::Add("N1", c.Get(1));
     Names::Add("N2", c.Get(2));
     Names::Add("N3", c.Get(3));
     Names::Add("N4", c.Get(4));
     Names::Add("N5", c.Get(5));
-    n0n2 = NodeContainer(c.Get(0), c.Get(2));
-    n1n2 = NodeContainer(c.Get(1), c.Get(2));
-    n2n3 = NodeContainer(c.Get(2), c.Get(3));
+    Names::Add("N6", c.Get(6));
+    Names::Add("N7", c.Get(7));
+    Names::Add("N8", c.Get(8));
+    Names::Add("N9", c.Get(9));
+    n0n4 = NodeContainer(c.Get(0), c.Get(4));
+    n1n4 = NodeContainer(c.Get(1), c.Get(4));
+    n2n4 = NodeContainer(c.Get(2), c.Get(4));
     n3n4 = NodeContainer(c.Get(3), c.Get(4));
-    n3n5 = NodeContainer(c.Get(3), c.Get(5));
+    n4n5 = NodeContainer(c.Get(4), c.Get(5));
+    n5n6 = NodeContainer(c.Get(5), c.Get(6));
+    n5n7 = NodeContainer(c.Get(5), c.Get(7));
+    n5n8 = NodeContainer(c.Get(5), c.Get(8));
+    n5n9 = NodeContainer(c.Get(5), c.Get(9));
 
     Config::SetDefault("ns3::TcpL4Protocol::SocketType", StringValue("ns3::TcpNewReno"));
     // 42 = headers size
@@ -256,8 +321,8 @@ main(int argc, char* argv[])
     Config::SetDefault("ns3::RedQueueDisc::Wait", BooleanValue(true));
     Config::SetDefault("ns3::RedQueueDisc::Gentle", BooleanValue(true));
     Config::SetDefault("ns3::RedQueueDisc::QW", DoubleValue(0.002));
-    Config::SetDefault("ns3::RedQueueDisc::MinTh", DoubleValue(30));
-    Config::SetDefault("ns3::RedQueueDisc::MaxTh", DoubleValue(60));
+    Config::SetDefault("ns3::RedQueueDisc::MinTh", DoubleValue(20));
+    Config::SetDefault("ns3::RedQueueDisc::MaxTh", DoubleValue(50));
 
 
 
@@ -282,52 +347,89 @@ main(int argc, char* argv[])
     p2p.SetQueue("ns3::DropTailQueue");
     p2p.SetDeviceAttribute("DataRate", StringValue("10Mbps"));
     p2p.SetChannelAttribute("Delay", StringValue("2ms"));
-    NetDeviceContainer devn0n2 = p2p.Install(n0n2);
-    tchPfifo.Install(devn0n2);
+    NetDeviceContainer devn0n4 = p2p.Install(n0n4);
+    tchPfifo.Install(devn0n4);
 
     p2p.SetQueue("ns3::DropTailQueue");
     p2p.SetDeviceAttribute("DataRate", StringValue("10Mbps"));
     p2p.SetChannelAttribute("Delay", StringValue("2ms"));
-    NetDeviceContainer devn1n2 = p2p.Install(n1n2);
+    NetDeviceContainer devn1n4 = p2p.Install(n1n4);
     //QueueDiscContainer queueDiscs1 = tchRed.Install(devn1n2);
-    tchPfifo.Install(devn1n2);
+    tchPfifo.Install(devn1n4);
 
-    //p2p.SetQueue("ns3::DropTailQueue");
-    p2p.SetDeviceAttribute("DataRate", StringValue(redLinkDataRate));
-    p2p.SetChannelAttribute("Delay", StringValue(redLinkDelay));
-    NetDeviceContainer devn2n3 = p2p.Install(n2n3);
-    // only backbone link has RED queue disc
-    QueueDiscContainer queueDiscs = tchRed.Install(devn2n3);
+    p2p.SetQueue("ns3::DropTailQueue");
+    p2p.SetDeviceAttribute("DataRate", StringValue("10Mbps"));
+    p2p.SetChannelAttribute("Delay", StringValue("2ms"));
+    NetDeviceContainer devn2n4 = p2p.Install(n2n4);
+    tchPfifo.Install(devn2n4);
 
     p2p.SetQueue("ns3::DropTailQueue");
     p2p.SetDeviceAttribute("DataRate", StringValue("10Mbps"));
     p2p.SetChannelAttribute("Delay", StringValue("2ms"));
     NetDeviceContainer devn3n4 = p2p.Install(n3n4);
+    //QueueDiscContainer queueDiscs1 = tchRed.Install(devn1n2);
     tchPfifo.Install(devn3n4);
+
+    //p2p.SetQueue("ns3::DropTailQueue");
+    p2p.SetDeviceAttribute("DataRate", StringValue(redLinkDataRate));
+    p2p.SetChannelAttribute("Delay", StringValue(redLinkDelay));
+    NetDeviceContainer devn4n5 = p2p.Install(n4n5);
+    // only backbone link has RED queue disc
+    QueueDiscContainer queueDiscs = tchRed.Install(devn4n5);
 
     p2p.SetQueue("ns3::DropTailQueue");
     p2p.SetDeviceAttribute("DataRate", StringValue("10Mbps"));
     p2p.SetChannelAttribute("Delay", StringValue("2ms"));
-    NetDeviceContainer devn3n5 = p2p.Install(n3n5);
-    tchPfifo.Install(devn3n5);
+    NetDeviceContainer devn5n6 = p2p.Install(n5n6);
+    tchPfifo.Install(devn5n6);
+
+    p2p.SetQueue("ns3::DropTailQueue");
+    p2p.SetDeviceAttribute("DataRate", StringValue("10Mbps"));
+    p2p.SetChannelAttribute("Delay", StringValue("2ms"));
+    NetDeviceContainer devn5n7 = p2p.Install(n5n7);
+    tchPfifo.Install(devn5n7);
+
+    p2p.SetQueue("ns3::DropTailQueue");
+    p2p.SetDeviceAttribute("DataRate", StringValue("10Mbps"));
+    p2p.SetChannelAttribute("Delay", StringValue("2ms"));
+    NetDeviceContainer devn5n8 = p2p.Install(n5n8);
+    tchPfifo.Install(devn5n8);
+
+    p2p.SetQueue("ns3::DropTailQueue");
+    p2p.SetDeviceAttribute("DataRate", StringValue("10Mbps"));
+    p2p.SetChannelAttribute("Delay", StringValue("2ms"));
+    NetDeviceContainer devn5n9 = p2p.Install(n5n9);
+    tchPfifo.Install(devn5n9);
 
     NS_LOG_INFO("Assign IP Addresses");
     Ipv4AddressHelper ipv4;
 
     ipv4.SetBase("10.1.1.0", "255.255.255.0");
-    i0i2 = ipv4.Assign(devn0n2);
+    i0i4 = ipv4.Assign(devn0n4);
 
     ipv4.SetBase("10.1.2.0", "255.255.255.0");
-    i1i2 = ipv4.Assign(devn1n2);
+    i1i4 = ipv4.Assign(devn1n4);
 
     ipv4.SetBase("10.1.3.0", "255.255.255.0");
-    i2i3 = ipv4.Assign(devn2n3);
+    i2i4 = ipv4.Assign(devn2n4);
 
     ipv4.SetBase("10.1.4.0", "255.255.255.0");
     i3i4 = ipv4.Assign(devn3n4);
 
     ipv4.SetBase("10.1.5.0", "255.255.255.0");
-    i3i5 = ipv4.Assign(devn3n5);
+    i4i5 = ipv4.Assign(devn4n5);
+
+    ipv4.SetBase("10.1.6.0", "255.255.255.0");
+    i5i6 = ipv4.Assign(devn5n6);
+
+    ipv4.SetBase("10.1.7.0", "255.255.255.0");
+    i5i7 = ipv4.Assign(devn5n7);
+
+    ipv4.SetBase("10.1.8.0", "255.255.255.0");
+    i5i8 = ipv4.Assign(devn5n8);
+
+    ipv4.SetBase("10.1.9.0", "255.255.255.0");
+    i5i9 = ipv4.Assign(devn5n9);
 
     // Set up the routing
     Ipv4GlobalRoutingHelper::PopulateRoutingTables();

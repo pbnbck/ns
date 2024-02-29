@@ -1,1 +1,0 @@
-/usr/bin/c++  -O2 -g -DNDEBUG   CMakeFiles/tap-creator.dir/model/tap-creator.cc.o CMakeFiles/tap-creator.dir/model/tap-encode-decode.cc.o  -o ../../build/src/tap-bridge/ns3-dev-tap-creator-default   -L/home/ck/桌面/ns/ns-3.37/build/lib  -Wl,-rpath,/home/ck/桌面/ns/ns-3.37/build/lib:: -Wl,--no-as-needed -Wl,--as-needed 

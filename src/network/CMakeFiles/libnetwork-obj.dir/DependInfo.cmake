@@ -1,0 +1,115 @@
+# The set of languages for which implicit dependencies are needed:
+set(CMAKE_DEPENDS_LANGUAGES
+  "CXX"
+  )
+# The set of files for implicit dependencies of each language:
+set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/ck/桌面/ns/ns-3.37/src/network/helper/application-container.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/helper/application-container.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/helper/delay-jitter-estimation.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/helper/delay-jitter-estimation.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/helper/net-device-container.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/helper/net-device-container.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/helper/node-container.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/helper/node-container.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/helper/packet-socket-helper.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/helper/packet-socket-helper.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/helper/simple-net-device-helper.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/helper/simple-net-device-helper.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/helper/trace-helper.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/helper/trace-helper.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/model/address.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/model/address.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/model/application.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/model/application.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/model/buffer.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/model/buffer.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/model/byte-tag-list.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/model/byte-tag-list.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/model/channel-list.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/model/channel-list.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/model/channel.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/model/channel.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/model/chunk.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/model/chunk.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/model/header.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/model/header.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/model/net-device.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/model/net-device.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/model/nix-vector.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/model/nix-vector.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/model/node-list.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/model/node-list.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/model/node.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/model/node.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/model/packet-metadata.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/model/packet-metadata.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/model/packet-tag-list.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/model/packet-tag-list.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/model/packet.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/model/packet.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/model/socket-factory.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/model/socket-factory.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/model/socket.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/model/socket.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/model/tag-buffer.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/model/tag-buffer.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/model/tag.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/model/tag.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/model/trailer.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/model/trailer.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/address-utils.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/address-utils.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/bit-deserializer.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/bit-deserializer.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/bit-serializer.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/bit-serializer.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/crc32.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/crc32.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/data-rate.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/data-rate.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/drop-tail-queue.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/drop-tail-queue.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/dynamic-queue-limits.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/dynamic-queue-limits.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/error-channel.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/error-channel.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/error-model.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/error-model.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/ethernet-header.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/ethernet-header.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/ethernet-trailer.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/ethernet-trailer.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/flow-id-tag.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/flow-id-tag.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/inet-socket-address.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/inet-socket-address.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/inet6-socket-address.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/inet6-socket-address.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/ipv4-address.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/ipv4-address.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/ipv6-address.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/ipv6-address.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/llc-snap-header.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/llc-snap-header.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/mac16-address.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/mac16-address.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/mac48-address.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/mac48-address.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/mac64-address.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/mac64-address.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/mac8-address.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/mac8-address.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/net-device-queue-interface.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/net-device-queue-interface.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/output-stream-wrapper.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/output-stream-wrapper.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/packet-burst.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/packet-burst.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/packet-data-calculators.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/packet-data-calculators.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/packet-probe.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/packet-probe.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/packet-socket-address.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/packet-socket-address.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/packet-socket-client.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/packet-socket-client.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/packet-socket-factory.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/packet-socket-factory.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/packet-socket-server.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/packet-socket-server.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/packet-socket.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/packet-socket.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/packetbb.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/packetbb.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/pcap-file-wrapper.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/pcap-file-wrapper.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/pcap-file.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/pcap-file.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/queue-item.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/queue-item.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/queue-limits.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/queue-limits.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/queue-size.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/queue-size.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/queue.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/queue.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/radiotap-header.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/radiotap-header.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/simple-channel.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/simple-channel.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/simple-net-device.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/simple-net-device.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/sll-header.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/sll-header.cc.o"
+  "/home/ck/桌面/ns/ns-3.37/src/network/utils/timestamp-tag.cc" "/home/ck/桌面/ns/ns-3.37/src/network/CMakeFiles/libnetwork-obj.dir/utils/timestamp-tag.cc.o"
+  )
+set(CMAKE_CXX_COMPILER_ID "GNU")
+
+# Preprocessor definitions for this target.
+set(CMAKE_TARGET_DEFINITIONS_CXX
+  "HAVE_BOOST"
+  "HAVE_BOOST_UNITS"
+  "HAVE_GSL"
+  "HAVE_LIBXML2"
+  "HAVE_SQLITE3"
+  "NS3_ASSERT_ENABLE"
+  "NS3_BUILD_PROFILE_DEBUG"
+  "NS3_LOG_ENABLE"
+  "PROJECT_SOURCE_PATH=\"/home/ck/桌面/ns/ns-3.37\""
+  "__LINUX__"
+  )
+
+# The include file search paths:
+set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "build/include"
+  "/usr"
+  "/usr/include/freetype2"
+  "/usr/include/glib-2.0"
+  "/usr/lib/x86_64-linux-gnu/glib-2.0/include"
+  "/usr/include/gdk-pixbuf-2.0"
+  "/usr/include/gtk-3.0"
+  "/usr/include/cairo"
+  "/usr/include/pango-1.0"
+  "/usr/include/harfbuzz"
+  "/usr/include/atk-1.0"
+  "/usr/include/libxml2"
+  )
+
+# Targets to which this target links.
+set(CMAKE_TARGET_LINKED_INFO_FILES
+  )
+
+# Fortran module output directory.
+set(CMAKE_Fortran_TARGET_MODULE_DIR "")

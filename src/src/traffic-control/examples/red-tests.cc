@@ -246,7 +246,7 @@ main(int argc, char* argv[])
     LogComponentEnable("RedQueueDisc", LOG_LEVEL_INFO);
 
     uint32_t redTest;
-    std::string redLinkDataRate = "512Mbps";
+    std::string redLinkDataRate = "128Mbps";
     std::string redLinkDelay = "200us";
 
     std::string pathOut;

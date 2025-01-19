@@ -1,42 +1,3 @@
-/*
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2 as
- * published by the Free Software Foundation;
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
- * Authors: Marcos Talau <talau@users.sourceforge.net>
- *          Duy Nguyen <duy@soe.ucsc.edu>
- * Modified by:   Pasquale Imputato <p.imputato@gmail.com>
- *
- */
-
-/**
- * These validation tests are detailed in http://icir.org/floyd/papers/redsims.ps
- *
- * In this code the tests 1, 3, 4 and 5 refer to the tests corresponding to
- * Figure 1, 3, 4, and 5 respectively from the document mentioned above.
- */
-
-/** Network topology
- *
- *    10Mb/s, 2ms                            10Mb/s, 4ms
- * n0--------------|                    |---------------n4
- *                 |   1.5Mbps/s, 20ms  |
- *                 n2------------------n3
- *    10Mb/s, 3ms  |                    |    10Mb/s, 5ms
- * n1--------------|                    |---------------n5
- *
- *
- */
-
 #include "ns3/applications-module.h"
 #include "ns3/core-module.h"
 #include "ns3/flow-monitor-helper.h"
@@ -45,7 +6,7 @@
 #include "ns3/point-to-point-module.h"
 #include "ns3/traffic-control-module.h"
 #include "ns3/flow-monitor-module.h"
-
+#define NUM         10
 using namespace ns3;
 
 NS_LOG_COMPONENT_DEFINE("RedTests");
@@ -61,40 +22,15 @@ double sink_stop_time;    //!< Sink stop time.
 double client_start_time; //!< Client start time.
 double client_stop_time;  //!< Client stop time.
 
-// NodeContainer n0n2; //!< Nodecontainer n0 + n2.
-// NodeContainer n1n2; //!< Nodecontainer n1 + n2.
-// NodeContainer n2n3; //!< Nodecontainer n2 + n3.
-// NodeContainer n3n4; //!< Nodecontainer n3 + n4.
-// NodeContainer n3n5; //!< Nodecontainer n3 + n5.
-NodeContainer n0n4;
-NodeContainer n1n4;
-NodeContainer n2n4;
-NodeContainer n3n4;
-NodeContainer n4n5;
-NodeContainer n5n6;
-NodeContainer n5n7;
-NodeContainer n5n8;
-NodeContainer n5n9;
+NodeContainer n0n10[NUM]; // 用于 n0n10 到 n9n10
+NodeContainer n10n11;   // 单独声明，因为只有一个
 
+NodeContainer n11n[NUM]; // 用于 n11n12 到 n11n21
 
+Ipv4InterfaceContainer i0i10[NUM]; // 用于 i0i10 到 i9i10
+Ipv4InterfaceContainer i10i11;   // 单独声明，因为只有一个
 
-
-
-
-// Ipv4InterfaceContainer i0i2; //!< IPv4 interface container i0 + i2.
-// Ipv4InterfaceContainer i1i2; //!< IPv4 interface container i1 + i2.
-// Ipv4InterfaceContainer i2i3; //!< IPv4 interface container i2 + i3.
-// Ipv4InterfaceContainer i3i4; //!< IPv4 interface container i3 + i4.
-// Ipv4InterfaceContainer i3i5; //!< IPv4 interface container i3 + i5.
-Ipv4InterfaceContainer i0i4;
-Ipv4InterfaceContainer i1i4;
-Ipv4InterfaceContainer i2i4;
-Ipv4InterfaceContainer i3i4;
-Ipv4InterfaceContainer i4i5;
-Ipv4InterfaceContainer i5i6;
-Ipv4InterfaceContainer i5i7;
-Ipv4InterfaceContainer i5i8;
-Ipv4InterfaceContainer i5i9;
+Ipv4InterfaceContainer i11i[NUM]; // 用于 i11i12 到 i11i21
 
 
 std::stringstream filePlotQueue;    //!< Output file name for queue size.
@@ -135,107 +71,43 @@ BuildAppsTest(uint32_t test)
 {
     if ((test == 1) || (test == 3))
     {
+        int16_t port = 0;
+        ApplicationContainer sinkApp[NUM];
         // SINK is in the right side
-        uint16_t port1 = 50000;
-        Address sinkLocalAddress1(InetSocketAddress(Ipv4Address::GetAny(), port1));
-        PacketSinkHelper sinkHelper1("ns3::TcpSocketFactory", sinkLocalAddress1);
-        ApplicationContainer sinkApp1 = sinkHelper1.Install(n5n6.Get(1));
-        sinkApp1.Start(Seconds(sink_start_time));
-        sinkApp1.Stop(Seconds(sink_stop_time));
-
-        uint16_t port2 = 50001;
-        Address sinkLocalAddress2(InetSocketAddress(Ipv4Address::GetAny(), port2));
-        PacketSinkHelper sinkHelper2("ns3::TcpSocketFactory", sinkLocalAddress2);
-        ApplicationContainer sinkApp2 = sinkHelper2.Install(n5n7.Get(1));
-        sinkApp2.Start(Seconds(sink_start_time));
-        sinkApp2.Stop(Seconds(sink_stop_time));
+        for (size_t i = 0; i < NUM; i++) {
+            port = 50000+i;
+            // 创建本地地址
+            Address sinkLocalAddress(InetSocketAddress(Ipv4Address::GetAny(), port));
+    
+            // 创建 PacketSinkHelper 并安装应用
+            PacketSinkHelper sinkHelper("ns3::TcpSocketFactory", sinkLocalAddress);
+            sinkApp[i] = sinkHelper.Install(n11n[i].Get(1));
+            sinkApp[i].Start(Seconds(sink_start_time));
+            sinkApp[i].Stop(Seconds(sink_stop_time));
+       }
 
 
-        uint16_t port3 = 50002;
-        Address sinkLocalAddress3(InetSocketAddress(Ipv4Address::GetAny(), port3));
-        PacketSinkHelper sinkHelper3("ns3::TcpSocketFactory", sinkLocalAddress3);
-        ApplicationContainer sinkApp3 = sinkHelper3.Install(n5n8.Get(1));
-        sinkApp3.Start(Seconds(sink_start_time));
-        sinkApp3.Stop(Seconds(sink_stop_time));
-
-
-        uint16_t port4 = 50003;
-        Address sinkLocalAddress4(InetSocketAddress(Ipv4Address::GetAny(), port4));
-        PacketSinkHelper sinkHelper4("ns3::TcpSocketFactory", sinkLocalAddress4);
-        ApplicationContainer sinkApp4 = sinkHelper4.Install(n5n9.Get(1));
-        sinkApp4.Start(Seconds(sink_start_time));
-        sinkApp4.Stop(Seconds(sink_stop_time));
-        // Connection one
         // Clients are in left side
         /*
          * Create the OnOff applications to send TCP to the server
          * onoffhelper is a client that send data to TCP destination
          */
-        OnOffHelper clientHelper1("ns3::TcpSocketFactory", Address());
-        clientHelper1.SetAttribute("OnTime",
-                                   StringValue("ns3::ConstantRandomVariable[Constant=1]"));
-        clientHelper1.SetAttribute("OffTime",
-                                   StringValue("ns3::ConstantRandomVariable[Constant=0]"));
-        clientHelper1.SetAttribute("DataRate", DataRateValue(DataRate("1024Mb/s")));
-        clientHelper1.SetAttribute("PacketSize", UintegerValue(1000));
+        ApplicationContainer clientApps[NUM];
+        for (size_t j = 0; j < NUM; j++) {
+            OnOffHelper clientHelper("ns3::TcpSocketFactory", Address());
+            clientHelper.SetAttribute("OnTime", ns3::StringValue("ns3::ConstantRandomVariable[Constant=1]"));
+            clientHelper.SetAttribute("OffTime", ns3::StringValue("ns3::ConstantRandomVariable[Constant=0]"));
+            clientHelper.SetAttribute("DataRate", ns3::DataRateValue(ns3::DataRate("1024Mb/s")));
+            clientHelper.SetAttribute("PacketSize", ns3::UintegerValue(1000));
+    
+            AddressValue remoteAddress(ns3::InetSocketAddress(i11i[j].GetAddress(1),50000 + j));
+            clientHelper.SetAttribute("Remote", remoteAddress);
 
-        ApplicationContainer clientApps1;
-        AddressValue remoteAddress1(InetSocketAddress(i5i6.GetAddress(1), port1));
-        clientHelper1.SetAttribute("Remote", remoteAddress1);
-        clientApps1.Add(clientHelper1.Install(n0n4.Get(0)));
-        clientApps1.Start(Seconds(client_start_time));
-        clientApps1.Stop(Seconds(client_stop_time));
-
-        // Connection two
-        OnOffHelper clientHelper2("ns3::TcpSocketFactory", Address());
-        clientHelper2.SetAttribute("OnTime",
-                                   StringValue("ns3::ConstantRandomVariable[Constant=1]"));
-        clientHelper2.SetAttribute("OffTime",
-                                   StringValue("ns3::ConstantRandomVariable[Constant=0]"));
-        clientHelper2.SetAttribute("DataRate", DataRateValue(DataRate("1024Mb/s")));
-        clientHelper2.SetAttribute("PacketSize", UintegerValue(1000));
-
-        ApplicationContainer clientApps2;
-        AddressValue remoteAddress2(InetSocketAddress(i5i7.GetAddress(1), port2));
-        clientHelper2.SetAttribute("Remote", remoteAddress2);
-        clientApps2.Add(clientHelper2.Install(n1n4.Get(0)));
-        //clientApps2.Start(Seconds(3.0));
-        clientApps2.Start(Seconds(client_start_time));
-        clientApps2.Stop(Seconds(client_stop_time));
-
-        // Connection three
-        OnOffHelper clientHelper3("ns3::TcpSocketFactory", Address());
-        clientHelper3.SetAttribute("OnTime",
-                                   StringValue("ns3::ConstantRandomVariable[Constant=1]"));
-        clientHelper3.SetAttribute("OffTime",
-                                   StringValue("ns3::ConstantRandomVariable[Constant=0]"));
-        clientHelper3.SetAttribute("DataRate", DataRateValue(DataRate("1024Mb/s")));
-        clientHelper3.SetAttribute("PacketSize", UintegerValue(1000));
-
-        ApplicationContainer clientApps3;
-        AddressValue remoteAddress3(InetSocketAddress(i5i8.GetAddress(1), port3));
-        clientHelper3.SetAttribute("Remote", remoteAddress3);
-        clientApps3.Add(clientHelper2.Install(n2n4.Get(0)));
-        //clientApps2.Start(Seconds(3.0));
-        clientApps3.Start(Seconds(client_start_time));
-        clientApps3.Stop(Seconds(client_stop_time));
-
-        // Connection four
-        OnOffHelper clientHelper4("ns3::TcpSocketFactory", Address());
-        clientHelper4.SetAttribute("OnTime",
-                                   StringValue("ns3::ConstantRandomVariable[Constant=1]"));
-        clientHelper4.SetAttribute("OffTime",
-                                   StringValue("ns3::ConstantRandomVariable[Constant=0]"));
-        clientHelper4.SetAttribute("DataRate", DataRateValue(DataRate("1024Mb/s")));
-        clientHelper4.SetAttribute("PacketSize", UintegerValue(1000));
-
-        ApplicationContainer clientApps4;
-        AddressValue remoteAddress4(InetSocketAddress(i5i9.GetAddress(1), port4));
-        clientHelper4.SetAttribute("Remote", remoteAddress4);
-        clientApps4.Add(clientHelper2.Install(n3n4.Get(0)));
-        //clientApps2.Start(Seconds(3.0));
-        clientApps4.Start(Seconds(client_start_time));
-        clientApps4.Stop(Seconds(client_stop_time));
+            clientApps[j].Add(clientHelper.Install(n0n10[j].Get(0)));
+            clientApps[j].Start(Seconds(client_start_time));
+            clientApps[j].Stop(Seconds(client_stop_time));
+        }
+        
     }
 
 }
@@ -288,26 +160,21 @@ main(int argc, char* argv[])
 
     NS_LOG_INFO("Create nodes");
     NodeContainer c;
-    c.Create(10);
-    Names::Add("N0", c.Get(0));
-    Names::Add("N1", c.Get(1));
-    Names::Add("N2", c.Get(2));
-    Names::Add("N3", c.Get(3));
-    Names::Add("N4", c.Get(4));
-    Names::Add("N5", c.Get(5));
-    Names::Add("N6", c.Get(6));
-    Names::Add("N7", c.Get(7));
-    Names::Add("N8", c.Get(8));
-    Names::Add("N9", c.Get(9));
-    n0n4 = NodeContainer(c.Get(0), c.Get(4));
-    n1n4 = NodeContainer(c.Get(1), c.Get(4));
-    n2n4 = NodeContainer(c.Get(2), c.Get(4));
-    n3n4 = NodeContainer(c.Get(3), c.Get(4));
-    n4n5 = NodeContainer(c.Get(4), c.Get(5));
-    n5n6 = NodeContainer(c.Get(5), c.Get(6));
-    n5n7 = NodeContainer(c.Get(5), c.Get(7));
-    n5n8 = NodeContainer(c.Get(5), c.Get(8));
-    n5n9 = NodeContainer(c.Get(5), c.Get(9));
+    char name[4];
+    c.Create((NUM *2)+2);
+        for (int a = 0; a < ((NUM * 2) + 2); a++) {
+        sprintf(name, "N%d", a);  // 将整数 i 格式化为字符串 "N0", "N1", ..., "N9"
+        Names::Add(name, c.Get(a));
+    }
+
+    for (int b = 0; b < NUM; b++) {
+        n0n10[b] = NodeContainer(c.Get(b), c.Get(NUM)); 
+    }
+    for(int f = 0; f < NUM; f++)
+    {
+         n11n[f] = NodeContainer(c.Get(NUM + 1), c.Get(f + NUM + 2)); 
+    }
+    n10n11 = NodeContainer(c.Get(NUM), c.Get(NUM + 1));
 
     Config::SetDefault("ns3::TcpL4Protocol::SocketType", StringValue("ns3::TcpNewReno"));
     // 42 = headers size
@@ -346,105 +213,53 @@ main(int argc, char* argv[])
 
     NS_LOG_INFO("Create channels");
     PointToPointHelper p2p;
+    NetDeviceContainer dev[NUM];
+    for (int c = 0; c < NUM; c++) {
+        // 设置队列、设备属性和通道属性（这些在每个循环迭代中都是相同的）
+        p2p.SetQueue("ns3::DropTailQueue");
+        p2p.SetDeviceAttribute("DataRate", StringValue("1024Mbps"));
+        p2p.SetChannelAttribute("Delay", StringValue("200us"));
+        dev[c] = p2p.Install(n0n10[c]); // 占位符调用，需要替换
+        tchPfifo.Install(dev[c]);
+    }
 
-    p2p.SetQueue("ns3::DropTailQueue");
-    p2p.SetDeviceAttribute("DataRate", StringValue("1024Mbps"));
-    p2p.SetChannelAttribute("Delay", StringValue("200us"));
-    NetDeviceContainer devn0n4 = p2p.Install(n0n4);
-    tchPfifo.Install(devn0n4);
-
-    p2p.SetQueue("ns3::DropTailQueue");
-    p2p.SetDeviceAttribute("DataRate", StringValue("1024Mbps"));
-    p2p.SetChannelAttribute("Delay", StringValue("200us"));
-    NetDeviceContainer devn1n4 = p2p.Install(n1n4);
-    //QueueDiscContainer queueDiscs1 = tchRed.Install(devn1n2);
-    tchPfifo.Install(devn1n4);
-
-    p2p.SetQueue("ns3::DropTailQueue");
-    p2p.SetDeviceAttribute("DataRate", StringValue("1024Mbps"));
-    p2p.SetChannelAttribute("Delay", StringValue("200us"));
-    NetDeviceContainer devn2n4 = p2p.Install(n2n4);
-    tchPfifo.Install(devn2n4);
-
-    p2p.SetQueue("ns3::DropTailQueue");
-    p2p.SetDeviceAttribute("DataRate", StringValue("1024Mbps"));
-    p2p.SetChannelAttribute("Delay", StringValue("200us"));
-    NetDeviceContainer devn3n4 = p2p.Install(n3n4);
-    //QueueDiscContainer queueDiscs1 = tchRed.Install(devn1n2);
-    tchPfifo.Install(devn3n4);
-
-    //p2p.SetQueue("ns3::DropTailQueue");
     p2p.SetDeviceAttribute("DataRate", StringValue(redLinkDataRate));
     p2p.SetChannelAttribute("Delay", StringValue(redLinkDelay));
-    NetDeviceContainer devn4n5 = p2p.Install(n4n5);
+    NetDeviceContainer devn10n11 = p2p.Install(n10n11);
     // only backbone link has RED queue disc
-    QueueDiscContainer queueDiscs = tchRed.Install(devn4n5);
-
-    p2p.SetQueue("ns3::DropTailQueue");
-    p2p.SetDeviceAttribute("DataRate", StringValue("1024Mbps"));
-    p2p.SetChannelAttribute("Delay", StringValue("200us"));
-    NetDeviceContainer devn5n6 = p2p.Install(n5n6);
-    tchPfifo.Install(devn5n6);
-
-    p2p.SetQueue("ns3::DropTailQueue");
-    p2p.SetDeviceAttribute("DataRate", StringValue("1024Mbps"));
-    p2p.SetChannelAttribute("Delay", StringValue("200us"));
-    NetDeviceContainer devn5n7 = p2p.Install(n5n7);
-    tchPfifo.Install(devn5n7);
-
-    p2p.SetQueue("ns3::DropTailQueue");
-    p2p.SetDeviceAttribute("DataRate", StringValue("1024Mbps"));
-    p2p.SetChannelAttribute("Delay", StringValue("200us"));
-    NetDeviceContainer devn5n8 = p2p.Install(n5n8);
-    tchPfifo.Install(devn5n8);
-
-    p2p.SetQueue("ns3::DropTailQueue");
-    p2p.SetDeviceAttribute("DataRate", StringValue("1024Mbps"));
-    p2p.SetChannelAttribute("Delay", StringValue("200us"));
-    NetDeviceContainer devn5n9 = p2p.Install(n5n9);
-    tchPfifo.Install(devn5n9);
-
+    QueueDiscContainer queueDiscs = tchRed.Install(devn10n11);
+    NetDeviceContainer dev1[NUM];
+    for (int k = 0; k < NUM; k++) {
+    // 设置队列、设备属性和通道属性（这些在每个循环迭代中都是相同的）
+        p2p.SetQueue("ns3::DropTailQueue");
+        p2p.SetDeviceAttribute("DataRate", StringValue("1024Mbps"));
+        p2p.SetChannelAttribute("Delay", StringValue("200us"));
+        dev1[k] = p2p.Install(n11n[k]); 
+        tchPfifo.Install(dev1[k]);
+    }
     NS_LOG_INFO("Assign IP Addresses");
     Ipv4AddressHelper ipv4;
+    char ip_addr[20];
+    for (int d = 0; d < NUM; d++) {
+        sprintf(ip_addr, "10.1.%d.0", d+1); 
+        ipv4.SetBase(ip_addr,"255.255.255.0");
+        i0i10[d] = ipv4.Assign(dev[d]);
+        std::cout << "ip_addr: " << ip_addr << std::endl;
+    }
+    for (int e = 0; e < NUM; e++) {
+        
+        sprintf(ip_addr, "10.1.%d.0", e + NUM + 2);  
+        ipv4.SetBase(ip_addr,"255.255.255.0"); 
+        i11i[e] = ipv4.Assign(dev1[e]);
 
-    ipv4.SetBase("10.1.1.0", "255.255.255.0");
-    i0i4 = ipv4.Assign(devn0n4);
-
-    ipv4.SetBase("10.1.2.0", "255.255.255.0");
-    i1i4 = ipv4.Assign(devn1n4);
-
-    ipv4.SetBase("10.1.3.0", "255.255.255.0");
-    i2i4 = ipv4.Assign(devn2n4);
-
-    ipv4.SetBase("10.1.4.0", "255.255.255.0");
-    i3i4 = ipv4.Assign(devn3n4);
-
-    ipv4.SetBase("10.1.5.0", "255.255.255.0");
-    i4i5 = ipv4.Assign(devn4n5);
-
-    ipv4.SetBase("10.1.6.0", "255.255.255.0");
-    i5i6 = ipv4.Assign(devn5n6);
-
-    ipv4.SetBase("10.1.7.0", "255.255.255.0");
-    i5i7 = ipv4.Assign(devn5n7);
-
-    ipv4.SetBase("10.1.8.0", "255.255.255.0");
-    i5i8 = ipv4.Assign(devn5n8);
-
-    ipv4.SetBase("10.1.9.0", "255.255.255.0");
-    i5i9 = ipv4.Assign(devn5n9);
+    }
+    sprintf(ip_addr, "10.1.%d.0", NUM+1); 
+    ipv4.SetBase(ip_addr, "255.255.255.0");
+    i10i11 = ipv4.Assign(devn10n11);
 
     // Set up the routing
     Ipv4GlobalRoutingHelper::PopulateRoutingTables();
 
-    if (redTest == 5)
-    {
-        // like in ns2 test, r2 -> r1, have a queue in packet mode
-        Ptr<QueueDisc> queue = queueDiscs.Get(1);
-
-        queue->SetMaxSize(QueueSize("1000p"));
-        StaticCast<RedQueueDisc>(queue)->SetTh(5, 15);
-    }
 
     BuildAppsTest(redTest);
 

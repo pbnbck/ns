@@ -5,7 +5,7 @@ plt.rcParams.update({'font.size': 16})
 
 # 从第一个文件中读取第一条曲线的数据
 data1 = []
-with open('red-queue-huger(20,60).txt', 'r') as file:
+with open('14-42-20-on.txt', 'r') as file:
     for line in file:
         if line.strip():  # 检查是否是空行
             try:
@@ -20,7 +20,7 @@ y1_values = np.array([point[1] for point in data1])
 
 # 从第二个文件中读取第二条曲线的数据
 data2 = []
-with open('red-queue(20,60).txt', 'r') as file:
+with open('14-42-20-off.txt', 'r') as file:
     for line in file:
         if line.strip():  # 检查是否是空行
             try:
@@ -34,7 +34,7 @@ x_values2 = np.array([point[0] for point in data2])
 y2_values = np.array([point[1] for point in data2])
 
 # 对数据进行移动平均平滑处理
-window_size = 1  # 调整窗口大小以满足需求
+window_size = 5  # 调整窗口大小以满足需求
 y1_smooth = np.convolve(y1_values, np.ones(window_size) / window_size, mode='valid')
 y2_smooth = np.convolve(y2_values, np.ones(window_size) / window_size, mode='valid')
 
@@ -48,9 +48,9 @@ plt.plot(x_values1_smooth, y1_smooth, label='AQMRD_Huber', linewidth=1.5, color=
 plt.plot(x_values2_smooth, y2_smooth, label='AQMRD', linewidth=1.5, color='blue', linestyle='--')  # 虚线
 plt.xlabel('time(s)')
 plt.ylabel('Queue size')
-plt.title('(4 socket streams)')
+plt.title('(20 socket streams)')
 plt.legend()
 plt.grid(True)
-plt.xlim(0, 2)
+plt.xlim(10, 30)
 plt.ylim(min(min(y1_smooth), min(y2_smooth)), max(max(y1_smooth), max(y2_smooth)) * 1.1)
 plt.show()

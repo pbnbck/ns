@@ -6,7 +6,7 @@
 #include "ns3/point-to-point-module.h"
 #include "ns3/traffic-control-module.h"
 #include "ns3/flow-monitor-module.h"
-#define NUM         10
+#define NUM         20
 using namespace ns3;
 
 NS_LOG_COMPONENT_DEFINE("RedTests");
@@ -97,7 +97,7 @@ BuildAppsTest(uint32_t test)
             OnOffHelper clientHelper("ns3::TcpSocketFactory", Address());
             clientHelper.SetAttribute("OnTime", ns3::StringValue("ns3::ConstantRandomVariable[Constant=1]"));
             clientHelper.SetAttribute("OffTime", ns3::StringValue("ns3::ConstantRandomVariable[Constant=0]"));
-            clientHelper.SetAttribute("DataRate", ns3::DataRateValue(ns3::DataRate("1024Mb/s")));
+            clientHelper.SetAttribute("DataRate", ns3::DataRateValue(ns3::DataRate("256Mb/s")));
             clientHelper.SetAttribute("PacketSize", ns3::UintegerValue(1000));
     
             AddressValue remoteAddress(ns3::InetSocketAddress(i11i[j].GetAddress(1),50000 + j));
@@ -118,8 +118,8 @@ main(int argc, char* argv[])
     LogComponentEnable("RedQueueDisc", LOG_LEVEL_INFO);
 
     uint32_t redTest;
-    std::string redLinkDataRate = "128Mbps";
-    std::string redLinkDelay = "200us";
+    std::string redLinkDataRate = "32Mbps";
+    std::string redLinkDelay = "1.5ms";
 
     std::string pathOut;
     bool writeForPlot = true;
@@ -160,7 +160,7 @@ main(int argc, char* argv[])
 
     NS_LOG_INFO("Create nodes");
     NodeContainer c;
-    char name[4];
+    char name[10];
     c.Create((NUM *2)+2);
         for (int a = 0; a < ((NUM * 2) + 2); a++) {
         sprintf(name, "N%d", a);  // 将整数 i 格式化为字符串 "N0", "N1", ..., "N9"
@@ -186,13 +186,13 @@ main(int argc, char* argv[])
 
     // RED params
     NS_LOG_INFO("Set RED params");
-    Config::SetDefault("ns3::RedQueueDisc::MaxSize", StringValue("1000p"));
+    Config::SetDefault("ns3::RedQueueDisc::MaxSize", StringValue("105p"));
     Config::SetDefault("ns3::RedQueueDisc::MeanPktSize", UintegerValue(meanPktSize));
     Config::SetDefault("ns3::RedQueueDisc::Wait", BooleanValue(true));
     Config::SetDefault("ns3::RedQueueDisc::Gentle", BooleanValue(true));
     Config::SetDefault("ns3::RedQueueDisc::QW", DoubleValue(0.002));
-    Config::SetDefault("ns3::RedQueueDisc::MinTh", DoubleValue(12));
-    Config::SetDefault("ns3::RedQueueDisc::MaxTh", DoubleValue(48));
+    Config::SetDefault("ns3::RedQueueDisc::MinTh", DoubleValue(14));
+    Config::SetDefault("ns3::RedQueueDisc::MaxTh", DoubleValue(42));
 
 
 
@@ -217,8 +217,8 @@ main(int argc, char* argv[])
     for (int c = 0; c < NUM; c++) {
         // 设置队列、设备属性和通道属性（这些在每个循环迭代中都是相同的）
         p2p.SetQueue("ns3::DropTailQueue");
-        p2p.SetDeviceAttribute("DataRate", StringValue("1024Mbps"));
-        p2p.SetChannelAttribute("Delay", StringValue("200us"));
+        p2p.SetDeviceAttribute("DataRate", StringValue("256Mbps"));
+        p2p.SetChannelAttribute("Delay", StringValue("1ms"));
         dev[c] = p2p.Install(n0n10[c]); // 占位符调用，需要替换
         tchPfifo.Install(dev[c]);
     }
@@ -232,8 +232,8 @@ main(int argc, char* argv[])
     for (int k = 0; k < NUM; k++) {
     // 设置队列、设备属性和通道属性（这些在每个循环迭代中都是相同的）
         p2p.SetQueue("ns3::DropTailQueue");
-        p2p.SetDeviceAttribute("DataRate", StringValue("1024Mbps"));
-        p2p.SetChannelAttribute("Delay", StringValue("200us"));
+        p2p.SetDeviceAttribute("DataRate", StringValue("256Mbps"));
+        p2p.SetChannelAttribute("Delay", StringValue("1ms"));
         dev1[k] = p2p.Install(n11n[k]); 
         tchPfifo.Install(dev1[k]);
     }

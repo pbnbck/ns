@@ -860,7 +860,7 @@ RedQueueDisc::CalculatePNew()
         //m_vB = -m_minTh / th_diff;
         // std::cout << "mid1: " << mid << std::endl;
 
-#if 0
+#if 1
         if (davg > 0.0)
         {
             if (m_qAvg < m_minTh)
@@ -888,7 +888,7 @@ RedQueueDisc::CalculatePNew()
             p = (m_qAvg - m_minTh)/(mid-m_minTh);
             p *= m_curMaxP;
             // p = p * huber; 
-            p = 0.6 * p + 0.4 * huber;
+            p = 0.75 * p + 0.25 * huber;
             // p = 0.2 * p + 0.8 * huber;
             // p = p * 0.1;
             // p = 1/(1+exp(-(davg)));

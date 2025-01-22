@@ -66,7 +66,7 @@
 #include "ns3/data-rate.h"
 #include "ns3/nstime.h"
 #include "ns3/random-variable-stream.h"
-double mid = 45;
+double mid = 28;
 double L1 = 0;
 double huber = 0;
 double ceta = 10;

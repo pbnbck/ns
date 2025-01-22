@@ -1,0 +1,42 @@
+[0/2] Re-checking globbed directories...
+[1/2] Building CXX object src/traffic-control/CMakeFiles/libtraffic-control-obj.dir/model/red-queue-disc.cc.o
+../src/traffic-control/model/red-queue-disc.cc: In member function ‘virtual bool ns3::RedQueueDisc::DoEnqueue(ns3::Ptr<ns3::QueueDiscItem>)’:
+../src/traffic-control/model/red-queue-disc.cc:377:12: warning: unused variable ‘now2’ [-Wunused-variable]
+  377 |     double now2 = now1.GetSeconds();
+      |            ^~~~
+[2/2] Linking CXX shared library ../build/lib/libns3-dev-traffic-control-default.so
+ip_addr: 10.1.1.0
+ip_addr: 10.1.2.0
+ip_addr: 10.1.3.0
+ip_addr: 10.1.4.0
+ip_addr: 10.1.5.0
+ip_addr: 10.1.6.0
+ip_addr: 10.1.7.0
+ip_addr: 10.1.8.0
+ip_addr: 10.1.9.0
+ip_addr: 10.1.10.0
+*** RED stats from Node 2 queue disc ***
+
+Packets/Bytes received: 928124 / 937289066
+Packets/Bytes enqueued: 915233 / 924269156
+Packets/Bytes dequeued: 915233 / 924269156
+Packets/Bytes requeued: 0 / 0
+Packets/Bytes dropped: 12891 / 13019910
+Packets/Bytes dropped before enqueue: 12891 / 13019910
+  Unforced drop: 12891 / 13019910
+Packets/Bytes dropped after dequeue: 0 / 0
+Packets/Bytes sent: 915233 / 924269156
+Packets/Bytes marked: 0 / 0
+
+*** RED stats from Node 3 queue disc ***
+
+Packets/Bytes received: 915227 / 48440716
+Packets/Bytes enqueued: 915227 / 48440716
+Packets/Bytes dequeued: 915227 / 48440716
+Packets/Bytes requeued: 0 / 0
+Packets/Bytes dropped: 0 / 0
+Packets/Bytes dropped before enqueue: 0 / 0
+Packets/Bytes dropped after dequeue: 0 / 0
+Packets/Bytes sent: 915227 / 48440716
+Packets/Bytes marked: 0 / 0
+
